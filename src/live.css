@@ -1,8 +1,430 @@
-.live-bank-content { display:grid; gap:16px; padding-bottom:24px }
-.live-bank-content .page-head { margin-bottom: 2px }
-.live-transfer, .live-sign-in { width:min(100%,690px) }
-.live-bank-content .accounts:empty { display:none }
-.live-pending.MuiChip-root,.live-processing.MuiChip-root { background:#fff1d5;color:#844d13 }
-.live-rejected.MuiChip-root,.live-manual_review.MuiChip-root { background:#fae8ec;color:#94364d }
-.live-mode-actions { display:flex; align-items:center; gap:9px }
-.live-bank-layout .MuiAlert-message { overflow-wrap:anywhere }
+/* PAISA BANK — Premium Digital Banking UI */
+
+.live-bank-layout {
+  --pb-navy: #101c36;
+  --pb-blue: #204abe;
+  --pb-light: #f4f7fc;
+  --pb-text: #18243b;
+  --pb-muted: #7c879b;
+  --pb-border: #e8edf5;
+  background: var(--pb-light);
+  min-height: 100vh;
+}
+
+.live-bank-layout .sidebar {
+  background: var(--pb-navy);
+  color: #fff;
+  border-right: 0;
+  box-shadow: 5px 0 25px rgba(16, 28, 54, .08);
+}
+
+.live-bank-layout .brand {
+  padding: 25px 22px;
+}
+
+.live-bank-layout .brand-icon {
+  background: linear-gradient(135deg, #3973ef, #204abe);
+  color: #fff;
+  border-radius: 13px;
+  box-shadow: 0 6px 18px rgba(32, 74, 190, .3);
+}
+
+.live-bank-layout .brand strong {
+  color: #fff;
+  letter-spacing: .4px;
+}
+
+.live-bank-layout .brand small {
+  color: #aebbd3;
+  letter-spacing: 1.5px;
+}
+
+.live-bank-layout .sidebar nav {
+  padding: 18px 14px;
+  gap: 9px;
+}
+
+.live-bank-layout .sidebar nav button,
+.live-bank-layout .switch-link {
+  color: #c5cee0;
+  border-radius: 11px;
+  transition: .2s ease;
+}
+
+.live-bank-layout .sidebar nav button:hover,
+.live-bank-layout .switch-link:hover {
+  background: rgba(255,255,255,.09);
+  color: #fff;
+}
+
+.live-bank-layout .main {
+  background: var(--pb-light);
+  min-width: 0;
+}
+
+.live-bank-layout .topbar {
+  background: rgba(255,255,255,.94);
+  border-bottom: 1px solid var(--pb-border);
+  min-height: 70px;
+  padding: 0 32px;
+  backdrop-filter: blur(12px);
+}
+
+.live-bank-layout .topbar strong {
+  color: var(--pb-text);
+  font-size: 14px;
+}
+
+.live-bank-layout .content {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 32px;
+  gap: 23px;
+}
+
+.live-bank-content .page-head h1 {
+  color: var(--pb-text);
+  font-size: clamp(25px, 3vw, 34px);
+  font-weight: 750;
+  letter-spacing: -.8px;
+  margin-bottom: 7px;
+}
+
+.live-bank-content .page-head p {
+  color: var(--pb-muted);
+  font-size: 14px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.summary-card {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 12px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid var(--pb-border);
+  border-radius: 18px;
+  box-shadow: 0 5px 20px rgba(25, 45, 80, .035);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.summary-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(25, 45, 80, .08);
+}
+
+.summary-card span {
+  color: var(--pb-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.summary-card strong {
+  color: var(--pb-text);
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 750;
+  letter-spacing: -.7px;
+  overflow-wrap: anywhere;
+}
+
+.summary-card small {
+  color: var(--pb-muted);
+  font-size: 12px;
+}
+
+.accounts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.account-card {
+  min-width: 0;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(16, 28, 54, .09);
+  transition: transform .2s;
+}
+
+.account-card:hover {
+  transform: translateY(-3px);
+}
+
+.account-card.primary-account {
+  background: linear-gradient(125deg, #183b91 0%, #245bd0 60%, #3979ed 100%);
+  color: #fff;
+}
+
+.account-card.light-account {
+  background: #fff;
+  color: var(--pb-text);
+  border: 1px solid var(--pb-border);
+}
+
+.account-head,
+.account-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.account-head {
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.primary-account .account-head,
+.primary-account .account-foot {
+  color: rgba(255,255,255,.78);
+}
+
+.account-value {
+  font-size: clamp(25px, 3vw, 34px);
+  font-weight: 750;
+  letter-spacing: -.7px;
+  margin: 27px 0;
+  overflow-wrap: anywhere;
+}
+
+.account-foot {
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid var(--pb-border);
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 5px 22px rgba(25, 45, 80, .035);
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.panel-head h2 {
+  color: var(--pb-text);
+  font-size: 19px;
+  font-weight: 750;
+  margin: 0 0 6px;
+}
+
+.panel-head p {
+  color: var(--pb-muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+.transfer-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.transfer-form .MuiButton-root {
+  background: var(--pb-blue);
+  border-radius: 10px;
+  text-transform: none;
+  font-weight: 650;
+  padding: 11px 22px;
+  box-shadow: none;
+}
+
+.transfer-form .MuiButton-root:hover {
+  background: #173b9e;
+  box-shadow: 0 5px 14px rgba(32, 74, 190, .2);
+}
+
+.transfer-form .type-switch,
+.transfer-form > div:last-child,
+.transfer-form .MuiAlert-root {
+  grid-column: 1 / -1;
+}
+
+.live-bank-layout .MuiOutlinedInput-root {
+  border-radius: 10px;
+  background: #fff;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.live-bank-content table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.live-bank-content th {
+  color: var(--pb-muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  padding: 14px 13px;
+  background: #f8faff;
+}
+
+.live-bank-content td {
+  color: var(--pb-text);
+  font-size: 13px;
+  padding: 17px 13px;
+  border-bottom: 1px solid var(--pb-border);
+  white-space: nowrap;
+}
+
+.live-bank-content td strong {
+  font-size: 12px;
+}
+
+.live-bank-content td small {
+  display: block;
+  color: var(--pb-muted);
+  margin-top: 5px;
+  font-size: 11px;
+}
+
+.live-bank-content .incoming.amount {
+  color: #13845a;
+  font-weight: 750;
+}
+
+.live-bank-content .amount {
+  font-weight: 750;
+}
+
+.live-bank-content .completed.MuiChip-root {
+  background: #e3f7ee;
+  color: #13794f;
+}
+
+.live-pending.MuiChip-root,
+.live-processing.MuiChip-root {
+  background: #fff3d9;
+  color: #94600e;
+}
+
+.live-rejected.MuiChip-root,
+.live-manual_review.MuiChip-root {
+  background: #fde9ed;
+  color: #a3314c;
+}
+
+.live-bank-content .empty {
+  padding: 42px 15px;
+  text-align: center;
+  color: var(--pb-muted);
+}
+
+.live-bank-content .empty strong {
+  display: block;
+  color: var(--pb-text);
+  margin-top: 10px;
+}
+
+.live-bank-content .empty p {
+  font-size: 13px;
+}
+
+.live-sign-in {
+  width: min(100%, 520px);
+  padding: 30px;
+}
+
+.live-transfer {
+  width: 100%;
+}
+
+.live-bank-layout .MuiAlert-message {
+  overflow-wrap: anywhere;
+}
+
+@media(max-width: 950px) {
+  .live-bank-layout .content {
+    padding: 24px 20px;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media(max-width: 680px) {
+  .live-bank-layout .topbar {
+    padding: 0 17px;
+  }
+
+  .live-bank-layout .content {
+    padding: 20px 14px;
+    gap: 16px;
+  }
+
+  .summary-grid,
+  .accounts,
+  .transfer-form {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-card,
+  .account-card,
+  .panel {
+    padding: 19px;
+    border-radius: 15px;
+  }
+
+  .transfer-form .type-switch,
+  .transfer-form > div:last-child,
+  .transfer-form .MuiAlert-root {
+    grid-column: auto;
+  }
+
+  .live-bank-content td {
+    padding: 13px 10px;
+  }
+
+  .live-sign-in {
+    width: 100%;
+  }
+}
+
+/* Paisa Bank logo */
+.live-bank-layout .brand {
+  padding: 20px 14px;
+}
+
+.live-bank-layout .brand-logo {
+  display: block;
+  width: 100%;
+  max-width: 225px;
+  height: 68px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 10px;
+}
+
+.live-sign-in .login-logo {
+  display: block;
+  width: min(100%, 360px);
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto 22px;
+}
+
+@media(max-width: 680px) {
+  .live-bank-layout .brand-logo {
+    max-width: 190px;
+  }
+}

@@ -205,22 +205,26 @@ export default function LiveBank({ bank, switchUrl, openDemo }) {
     await refresh();
   }
 
+  const accountSummary = data.accounts.reduce((total, account) => ({
+    available: total.available + (Number(account.availableMinor) || 0),
+    held: total.held + (Number(account.heldMinor) || 0),
+  }), { available: 0, held: 0 });
+
   return <div className="layout live-bank-layout">
-    <aside className="sidebar"><div className="brand"><span className="brand-icon"><Landmark size={23} /></span>
-      <span><strong>{bank.wordmark}</strong><small>BANKING PORTAL</small></span></div>
+    <aside className="sidebar"><div className="brand"><img className="brand-logo" src="/images/paisa-bank-logo.png" alt="Paisa Bank" /></div>
       <nav aria-label="Bank actions">
         {session && <button onClick={() => refresh()}><RefreshCw size={18} /> Refresh balances</button>}
         {!configuredEndpoint && <button onClick={() => { setUrl(base); setEditUrl(!editUrl); }}><Globe2 size={18} /> Worker connection</button>}
         {openDemo && <button onClick={openDemo}><ArrowLeftRight size={18} /> Browser demo</button>}
         {session && <button onClick={logout}><LogOut size={18} /> Sign out</button>}
       </nav>
-      <a className="switch-link" href={switchUrl}><Globe2 size={17} /> SharedBank switch</a>
+      
     </aside>
     <div className="main">
-      <header className="topbar"><strong>{bank.name} · {bank.id}</strong><Chip label="Firestore test network" size="small" className="demo" /></header>
+      <header className="topbar"><strong>{bank.name}</strong></header>
       <main className="content live-bank-content">
-        <div className="page-head"><div><h1>{session ? 'Accounts and transfers' : 'Access your bank'}</h1>
-          <p>{session ? 'Signed in as ' + session.email : 'Connect to the Worker and use your bank’s Firebase test login.'}</p>
+        <div className="page-head"><div><h1>{session ? 'Accounts and transfers' : 'Welcome to ' + bank.name}</h1>
+          <p>{session ? 'Signed in as ' + session.email : 'Your banking experience starts here. Sign in securely to continue.'}</p>
         </div></div>
         {error && <Alert severity="error">{error}</Alert>}
         {note && <Alert severity="info" onClose={() => setNote('')}>{note}</Alert>}
@@ -229,8 +233,8 @@ export default function LiveBank({ bank, switchUrl, openDemo }) {
           <form className="transfer-form" onSubmit={connect}><TextField label="Cloudflare Worker URL" fullWidth required value={url} onChange={e => setUrl(e.target.value)} />
             <div><Button type="submit" variant="contained">Save connection</Button></div></form>
         </section>}
-        {!session && base && !editUrl && <section className="panel live-sign-in"><header className="panel-head"><div><h2>Sign in to {bank.name}</h2>
-          <p>Use a customer enabled in this bank’s Firebase project.</p></div></header>
+        {!session && base && !editUrl && <section className="panel live-sign-in"><img className="login-logo" src="/images/paisa-bank-logo.png" alt="Paisa Bank" /><header className="panel-head"><div><h2>Sign in to {bank.name}</h2>
+          <p>Enter your registered email and password to access your account.</p></div></header>
           <form className="transfer-form" onSubmit={signIn}>
             <TextField label="Email" type="email" autoComplete="username" required value={email} onChange={event => setEmail(event.target.value)} />
             <TextField label="Password" type="password" autoComplete="current-password" required value={password} onChange={event => setPassword(event.target.value)} />
@@ -239,6 +243,23 @@ export default function LiveBank({ bank, switchUrl, openDemo }) {
         {session && <>
           {loaded && !data.accounts.length && <Alert severity="info">This Firebase user has no synthetic account in this bank. Attach an account to this Firebase UID.</Alert>}
           {!loaded && <Alert severity="info">Loading your accounts and activity…</Alert>}
+          {loaded && data.accounts.length > 0 && <section className="summary-grid">
+            <article className="summary-card">
+              <span>Total Accounts</span>
+              <strong>{data.accounts.length}</strong>
+              <small>Active bank accounts</small>
+            </article>
+            <article className="summary-card">
+              <span>Available Balance</span>
+              <strong>{money(accountSummary.available)}</strong>
+              <small>Across all your accounts</small>
+            </article>
+            <article className="summary-card">
+              <span>Held Balance</span>
+              <strong>{money(accountSummary.held)}</strong>
+              <small>Currently reserved funds</small>
+            </article>
+          </section>}
           <div className="accounts">{data.accounts.map((account, i) =>
             <section key={account.accountId} className={'account-card ' + (i === 0 ? 'primary-account' : 'light-account')}>
               <div className="account-head"><span>{account.accountNumber}</span><Landmark size={19} /></div>
