@@ -211,7 +211,7 @@ export default function LiveBank({ bank, switchUrl, openDemo }) {
   }), { available: 0, held: 0 });
 
   return <div className="layout live-bank-layout">
-    <aside className="sidebar"><div className="brand"><img className="brand-logo" src="/images/paisa-bank-logo.png" alt="Paisa Bank" /></div>
+    <aside className="sidebar"><div className="brand"><img className="brand-logo" src={`${import.meta.env.BASE_URL}images/paisa-bank-logo.png`} alt="Paisa Bank" /></div>
       <nav aria-label="Bank actions">
         {session && <button onClick={() => refresh()}><RefreshCw size={18} /> Refresh balances</button>}
         {!configuredEndpoint && <button onClick={() => { setUrl(base); setEditUrl(!editUrl); }}><Globe2 size={18} /> Worker connection</button>}
@@ -233,7 +233,7 @@ export default function LiveBank({ bank, switchUrl, openDemo }) {
           <form className="transfer-form" onSubmit={connect}><TextField label="Cloudflare Worker URL" fullWidth required value={url} onChange={e => setUrl(e.target.value)} />
             <div><Button type="submit" variant="contained">Save connection</Button></div></form>
         </section>}
-        {!session && base && !editUrl && <section className="panel live-sign-in"><img className="login-logo" src="/images/paisa-bank-logo.png" alt="Paisa Bank" /><header className="panel-head"><div><h2>Sign in to {bank.name}</h2>
+        {!session && base && !editUrl && <section className="panel live-sign-in"><img className="login-logo" src={`${import.meta.env.BASE_URL}images/paisa-bank-logo.png`} alt="Paisa Bank" /><header className="panel-head"><div><h2>Sign in to {bank.name}</h2>
           <p>Enter your registered email and password to access your account.</p></div></header>
           <form className="transfer-form" onSubmit={signIn}>
             <TextField label="Email" type="email" autoComplete="username" required value={email} onChange={event => setEmail(event.target.value)} />
